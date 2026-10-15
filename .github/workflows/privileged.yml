@@ -9,6 +9,9 @@ permissions:
 jobs:
   post:
     environment: prod
+    permissions:
+      actions: read
+      contents: write
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
