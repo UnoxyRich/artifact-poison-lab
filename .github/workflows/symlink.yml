@@ -1,0 +1,21 @@
+name: symlink-probe
+on:
+  push:
+    branches: [symlink-probe]
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build artifact with a symlink then a file through it
+        run: |
+          mkdir -p /tmp/esc-dir
+          mkdir -p out
+          ln -s /tmp/esc-dir out/linkdir
+          echo "readme" > out/readme.txt
+          find out -ls
+          mkdir -p out/payload && echo "payload" > out/payload/p.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: symlink-probe
+          path: out/
+          include-hidden-files: true
