@@ -1,6 +1,7 @@
 name: gate
 on:
-  workflow_dispatch:
+  push:
+    branches: [review-src]
 jobs:
   deploy:
     runs-on: ubuntu-latest
