@@ -1,0 +1,24 @@
+name: privileged
+on:
+  workflow_run:
+    workflows: [build]
+    types: [completed]
+jobs:
+  post:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: .
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: post (privileged, has PRIV_SECRET)
+        env:
+          PRIV_SECRET: ${{ secrets.PRIV_SECRET }}
+        run: |
+          echo "source_head_branch=${{ github.event.workflow_run.head_branch }}"
+          echo "post_sha256_on_disk=$(sha256sum scripts/post.sh | cut -d' ' -f1)"
+          bash scripts/post.sh
