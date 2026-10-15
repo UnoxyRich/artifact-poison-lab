@@ -1,0 +1,11 @@
+name: probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: direct secret read on a feature-style branch
+        env:
+          PRIV_SECRET: ${{ secrets.PRIV_SECRET }}
+        run: echo "DIRECT_PRIV_SECRET_SHA256=$(printf '%s' "$PRIV_SECRET" | sha256sum | cut -d' ' -f1)"
