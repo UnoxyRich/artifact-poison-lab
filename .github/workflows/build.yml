@@ -10,6 +10,11 @@ jobs:
         run: |
           mkdir -p out/scripts
           cp scripts/post.sh out/scripts/post.sh
+      - run: echo POISON-FROM-FEATURE > poison-cache.txt
+      - uses: actions/cache/save@v4
+        with:
+          path: poison-cache.txt
+          key: poison-probe-feature-${{ github.run_id }}
       - uses: actions/upload-artifact@v4
         with:
           name: build-output
