@@ -4,9 +4,10 @@ on:
     branches: [direct-probe]
 jobs:
   probe:
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: direct secret read on a feature-style branch
         env:
-          PRIV_SECRET: ${{ secrets.PRIV_SECRET }}
-        run: echo "DIRECT_PRIV_SECRET_SHA256=$(printf '%s' "$PRIV_SECRET" | sha256sum | cut -d' ' -f1)"
+          PRIV_SECRET: ${{ secrets.PRIV_ENV_SECRET }}
+        run: echo "DIRECT_ENV_SECRET_SHA256=$(printf '%s' "$PRIV_SECRET" | sha256sum | cut -d' ' -f1)"
