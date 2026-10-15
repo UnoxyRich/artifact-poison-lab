@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   post:
+    environment: prod
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +22,7 @@ jobs:
       - name: post (privileged, has PRIV_SECRET)
         env:
           PRIV_SECRET: ${{ secrets.PRIV_SECRET }}
+          PRIV_ENV_SECRET: ${{ secrets.PRIV_ENV_SECRET }}
         run: |
           echo "source_head_branch=${{ github.event.workflow_run.head_branch }}"
           echo "post_sha256_on_disk=$(sha256sum scripts/post.sh | cut -d' ' -f1)"
