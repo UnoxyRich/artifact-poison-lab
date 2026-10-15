@@ -15,6 +15,13 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/cache/restore@v4
+        with:
+          path: poison-cache.txt
+          key: poison-probe-main-never
+          restore-keys: poison-probe-
+      - name: show restored cache
+        run: cat poison-cache.txt && echo CACHE_READ_OK || echo CACHE_MISS
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
